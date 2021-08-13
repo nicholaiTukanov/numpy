@@ -215,7 +215,7 @@ class _Config:
         x86 = "SSE SSE2",
         x64 = "SSE SSE2 SSE3",
         ppc64 = '', # play it safe
-        ppc64le = "VSX VSX2",
+        ppc64le = "VSX VSX2 VSX3",
         armhf = '', # play it safe
         aarch64 = "NEON NEON_FP16 NEON_VFPV4 ASIMD"
     )
@@ -281,6 +281,8 @@ class _Config:
         VSX2 = dict(interest=2, implies="VSX", implies_detect=False),
         ## Power9/ISA 3.00
         VSX3 = dict(interest=3, implies="VSX2", implies_detect=False),
+        ## Power10/ISA 3.01
+        VSX4 = dict(interest=4, implies="VSX3", implies_detect=False),
         # ARM
         NEON  = dict(interest=1, headers="arm_neon.h"),
         NEON_FP16 = dict(interest=2, implies="NEON"),
@@ -451,12 +453,16 @@ class _Config:
                 ),
                 VSX3 = dict(
                     flags="-mcpu=power9 -mtune=power9", implies_detect=False
+                ),
+                VSX4 = dict(
+                    flags="-mcpu=power10 -mtune=power10", implies_detect=False
                 )
             )
             if self.cc_is_clang:
                 partial["VSX"]["flags"]  = "-maltivec -mvsx"
                 partial["VSX2"]["flags"] = "-mpower8-vector"
                 partial["VSX3"]["flags"] = "-mpower9-vector"
+                partial["VSX4"]["flags"] = "-mpower10-vector"
 
             return partial
 
