@@ -468,8 +468,16 @@ npy__cpu_init_features(void)
 
 #elif defined(NPY_CPU_PPC64) || defined(NPY_CPU_PPC64LE)
 
+// in the case that we are building on an older system
+// define the feature macros since they will be undefined
 #ifdef __linux__
     #include <sys/auxv.h>
+    #ifndef PPC_FEATURE2_ARCH_3_1
+    #define PPC_FEATURE2_ARCH_3_1 0x00040000
+    #endif
+    #ifndef PPC_FEATURE2_ARCH_3_00
+    #define PPC_FEATURE2_ARCH_3_00 0x00800000
+    #endif
 #endif
 
 static void
