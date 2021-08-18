@@ -403,13 +403,13 @@ class _Test_CCompilerOpt:
                 # in msvc, avx512_knl avx512_knm aren't supported
                 x86_msvc=".* xop fma4 .* avx512f .* avx512_skx .*",
                 armhf=".* asimd asimdhp asimddp .*",
-                ppc64="vsx vsx2 vsx3.*"
+                ppc64="vsx vsx2 vsx3 vsx4.*"
             )
         # min
         self.expect("min",
             x86="sse sse2", x64="sse sse2 sse3",
             armhf="", aarch64="neon neon_fp16 .* asimd",
-            ppc64="", ppc64le="vsx vsx2"
+            ppc64="", ppc64le="vsx vsx2 vsx3"
         )
         self.expect(
             "min", trap_files=".*cpu_(sse2|vsx2).c",
